@@ -445,7 +445,7 @@ public class Menu {
             m.freeItems = MenuItem.loadItemsFor(m.id, 0);
 
             // find if "in use"
-            String inuseQ = "SELECT * FROM Services WHERE approved_menu_id = " + m.id;
+            String inuseQ = "SELECT * FROM servicemenu WHERE menu_id = " + m.id;
             PersistenceManager.executeQuery(inuseQ, new ResultHandler() {
                 @Override
                 public void handle(ResultSet rs) throws SQLException {
@@ -476,9 +476,7 @@ public class Menu {
             m.updateFreeItems(MenuItem.loadItemsFor(m.id, 0));
 
             // find if "in use"
-            String inuseQ = "SELECT * FROM Services WHERE approved_menu_id = " + m.id +
-                    " OR " +
-                    "proposed_menu_id = "+ m.id;
+            String inuseQ = "SELECT * FROM servicemenu WHERE menu_id = " + m.id;
             PersistenceManager.executeQuery(inuseQ, new ResultHandler() {
                 @Override
                 public void handle(ResultSet rs) throws SQLException {
@@ -524,5 +522,18 @@ public class Menu {
                 // no generated ids to handle
             }
         });
+    }
+
+    public ArrayList<Recipe> getNeededRecipes(){
+        ArrayList<Recipe> recipes = new ArrayList<>();
+        for(Section section : sections){
+            for(MenuItem menuItem : section.getItems()){
+                recipes.add(menuItem.getItemRecipe());
+            }
+        }
+        for(MenuItem menuItem : freeItems){
+            recipes.add(menuItem.getItemRecipe());
+        }
+        return recipes;
     }
 }

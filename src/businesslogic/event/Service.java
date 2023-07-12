@@ -2,6 +2,8 @@ package businesslogic.event;
 
 import businesslogic.kitchentask.SummarySheet;
 import businesslogic.menu.Menu;
+import businesslogic.recipe.KitchenDuty;
+import businesslogic.recipe.Recipe;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import persistence.PersistenceManager;
@@ -11,6 +13,7 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.util.ArrayList;
 
 public class Service implements EventItemInfo {
     private int id;
@@ -40,13 +43,30 @@ public class Service implements EventItemInfo {
         return name + ": " + date + " (" + timeStart + "-" + timeEnd + "), " + participants + " pp." + " servicemenu : "+serviceMenu;
     }
 
-    // STATIC METHODS FOR PERSISTENCE
-
 
     public SummarySheet createSummarySheet(){
         Menu menu = this.serviceMenu.getMenu();
-
+        ArrayList<Recipe> recipes = menu.getNeededRecipes();
+        ArrayList<KitchenDuty> kitchenDuties = new ArrayList<>();
+        for(Recipe recipe : recipes){
+            for(KitchenDuty kitchenDuty : recipe.getSubDuties()){
+                kitchenDuties.add(kitchenDuty);
+            }
+        }
+        SummarySheet newSummarySheet = new SummarySheet(kitchenDuties);
+        this.summarySheet = newSummarySheet;
+        return this.summarySheet;
     }
+
+    public int getId() {
+        return id;
+    }
+
+
+    // STATIC METHODS FOR PERSISTENCE
+
+
+
 
     public static ObservableList<Service> loadServiceInfoForEvent(int event_id) {
         ObservableList<Service> result = FXCollections.observableArrayList();

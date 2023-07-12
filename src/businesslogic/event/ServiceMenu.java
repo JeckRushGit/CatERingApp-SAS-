@@ -74,11 +74,10 @@ public class ServiceMenu {
 
     @Override
     public String toString() {
-        return "ServiceMenu{" +
-                "menu=" + menu +
-                ", id=" + id +
-                ", approved=" + approved +
-                ", proposals='" + proposals + '\'' +
-                '}';
+        return
+                "menu= " + menu +
+                ", id= " + id +
+                ", approved= " + approved +
+                ", proposals= '" + proposals + '\'';
     }
 }

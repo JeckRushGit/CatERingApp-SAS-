@@ -9,11 +9,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
-public class Recipe {
+public class Recipe extends KitchenDuty{
     private static Map<Integer, Recipe> all = new HashMap<>();
+    private ArrayList<KitchenDuty> subDuties;
 
-    private int id;
-    private String name;
 
     private Recipe() {
 
@@ -22,15 +21,14 @@ public class Recipe {
     public Recipe(String name) {
         id = 0;
         this.name = name;
+        this.subDuties = new ArrayList<>();
     }
 
     public String getName() {
         return name;
     }
 
-    public int getId() {
-        return id;
-    }
+
 
     public String toString() {
         return name;
@@ -47,9 +45,11 @@ public class Recipe {
                 if (all.containsKey(id)) {
                     Recipe rec = all.get(id);
                     rec.name = rs.getString("name");
+                    rec.subDuties = SubDuty.loadSubDutiesForRecipe(rec.id);
                 } else {
                     Recipe rec = new Recipe(rs.getString("name"));
                     rec.id = id;
+                    rec.subDuties = SubDuty.loadSubDutiesForRecipe(rec.id);
                     all.put(rec.id, rec);
                 }
             }
@@ -84,4 +84,8 @@ public class Recipe {
     }
 
 
+    @Override
+    public ArrayList<KitchenDuty> getSubDuties() {
+        return this.subDuties;
+    }
 }
