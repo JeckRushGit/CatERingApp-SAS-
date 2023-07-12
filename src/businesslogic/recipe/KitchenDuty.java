@@ -12,5 +12,6 @@ public abstract class KitchenDuty {
 
     public abstract ArrayList<KitchenDuty> getSubDuties();
 
+    public abstract String toString();
 
 }

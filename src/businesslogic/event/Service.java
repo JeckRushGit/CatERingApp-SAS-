@@ -31,6 +31,10 @@ public class Service implements EventItemInfo {
         this.name = name;
     }
 
+    public SummarySheet getSummarySheet() {
+        return summarySheet;
+    }
+
     public ServiceMenu getServiceMenu() {
         return serviceMenu;
     }
@@ -83,10 +87,16 @@ public class Service implements EventItemInfo {
                 serv.timeEnd = rs.getTime("time_end");
                 serv.participants = rs.getInt("expected_participants");
                 serv.serviceMenu = ServiceMenu.loadServiceMenuInfoForService(serv.id);
+                serv.summarySheet = SummarySheet.loadSummarySheetInfoForService(serv.id);
                 result.add(serv);
             }
         });
 
         return result;
+    }
+
+
+    public void removeSummarySheet() {
+        this.summarySheet = null;
     }
 }

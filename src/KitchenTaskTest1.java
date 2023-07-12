@@ -2,13 +2,11 @@ import businesslogic.CatERing;
 import businesslogic.UseCaseLogicException;
 import businesslogic.event.Event;
 import businesslogic.event.Service;
-import businesslogic.event.ServiceMenu;
-import businesslogic.kitchentask.KitchenTaskManager;
-import businesslogic.menu.Menu;
+import businesslogic.kitchentask.KitchenTask;
+import businesslogic.kitchentask.SummarySheetException;
 import businesslogic.recipe.Recipe;
 import javafx.collections.ObservableList;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class KitchenTaskTest1 {
@@ -37,9 +35,27 @@ public class KitchenTaskTest1 {
         }
 
         try {
-            CatERing.getInstance().getKitchenTaskManager().createSummarySheet(targetEvent,s);
+
+            CatERing.getInstance().getKitchenTaskManager().openSummarySheet(targetEvent,s);
+            ObservableList<Recipe> recipes = CatERing.getInstance().getRecipeManager().getRecipes();
+            Recipe recipe = null;
+            for(Recipe rec : recipes){
+                if(rec.getId() == 6){
+                    recipe = rec;
+                }
+            }
+
+//            CatERing.getInstance().getKitchenTaskManager().addTask(recipe);
+
+            KitchenTask task = CatERing.getInstance().getKitchenTaskManager().getCurrentSheet().getTasks().get(2);
+            System.out.println(task.getPosition());
+            CatERing.getInstance().getKitchenTaskManager().orderTask(task,0);
+//            CatERing.getInstance().getKitchenTaskManager().deleteTask(task);
+
         } catch (UseCaseLogicException ex) {
             ex.printStackTrace();
+        } catch (SummarySheetException ex) {
+            throw new RuntimeException(ex);
         }
 
     }

@@ -1,6 +1,7 @@
 package businesslogic.recipe;
 
 import businesslogic.event.ServiceMenu;
+import businesslogic.kitchentask.KitchenTask;
 import businesslogic.menu.Menu;
 import persistence.PersistenceManager;
 import persistence.ResultHandler;
@@ -21,6 +22,11 @@ public class SubDuty extends KitchenDuty{
         this.name = name;
     }
 
+    private SubDuty(){
+        id = 0;
+        this.name = "";
+    }
+
     public static ArrayList<KitchenDuty> loadSubDutiesForRecipe(int recipe_id){
         ArrayList<KitchenDuty> subDuties = new ArrayList<>();
         String query = "SELECT *" +
@@ -36,6 +42,23 @@ public class SubDuty extends KitchenDuty{
         });
 
         return subDuties;
+    }
+
+    public static SubDuty loadSubDutyById(int subduty_id){
+        String query = "SELECT *" +
+                "FROM subduties WHERE ID = " + subduty_id;
+        SubDuty subDuty = new SubDuty();
+        PersistenceManager.executeQuery(query, new ResultHandler() {
+            @Override
+            public void handle(ResultSet rs) throws SQLException {
+                int summarySheetId = rs.getInt("id");
+                ArrayList<KitchenTask> tasks = new ArrayList<>();
+                subDuty.id = rs.getInt("ID");
+                subDuty.name = rs.getString("name");
+            }
+        });
+
+        return subDuty;
     }
 
     @Override

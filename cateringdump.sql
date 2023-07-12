@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Lug 12, 2023 alle 13:05
+-- Creato il: Lug 12, 2023 alle 19:04
 -- Versione del server: 10.4.28-MariaDB
 -- Versione PHP: 8.2.4
 
@@ -54,7 +54,8 @@ INSERT INTO `events` (`id`, `name`, `date_start`, `date_end`, `expected_particip
 CREATE TABLE `kitchentasks` (
   `id` int(11) NOT NULL,
   `summarysheet_id` int(11) NOT NULL DEFAULT 0,
-  `subduty_id` int(11) NOT NULL DEFAULT 0
+  `subduty_id` int(11) NOT NULL DEFAULT 0,
+  `position` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -502,7 +503,7 @@ ALTER TABLE `events`
 -- AUTO_INCREMENT per la tabella `kitchentasks`
 --
 ALTER TABLE `kitchentasks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=94;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=282;
 
 --
 -- AUTO_INCREMENT per la tabella `menuitems`
@@ -550,7 +551,7 @@ ALTER TABLE `subduties`
 -- AUTO_INCREMENT per la tabella `summarysheets`
 --
 ALTER TABLE `summarysheets`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT per la tabella `users`
