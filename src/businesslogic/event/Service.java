@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Service implements EventItemInfo {
     private int id;
@@ -75,7 +76,7 @@ public class Service implements EventItemInfo {
     public static ObservableList<Service> loadServiceInfoForEvent(int event_id) {
         ObservableList<Service> result = FXCollections.observableArrayList();
         String query = "SELECT id, name, service_date, time_start, time_end, expected_participants " +
-                "FROM Services WHERE event_id = " + event_id;
+                "FROM services WHERE event_id = " + event_id;
         PersistenceManager.executeQuery(query, new ResultHandler() {
             @Override
             public void handle(ResultSet rs) throws SQLException {
@@ -98,5 +99,18 @@ public class Service implements EventItemInfo {
 
     public void removeSummarySheet() {
         this.summarySheet = null;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Service service = (Service) o;
+        return id == service.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

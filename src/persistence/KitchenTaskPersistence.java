@@ -40,5 +40,45 @@ public class KitchenTaskPersistence implements TaskEventReceiver {
         SummarySheet.orderTasks(currentSheet,oldPosition,newPosition);
     }
 
+    @Override
+    public void updateTaskFilled(SummarySheet currentSheet, KitchenTask task) {
+        KitchenTask.fillKitchenTask(currentSheet, task);
+    }
+
+    @Override
+    public void updateTaskMoved(SummarySheet currentSheet, KitchenTask task) {
+        KitchenTask.moveKitchenTask(currentSheet, task);
+    }
+
+    @Override
+    public void updateTaskShiftRemoved(SummarySheet currentSheet, KitchenTask task) {
+        KitchenTask.removeKitchenTaskShift(currentSheet, task);
+    }
+
+    @Override
+    public void updateTaskQuantityChanged(SummarySheet currentSheet, KitchenTask task) {
+        KitchenTask.changeQuantity(currentSheet, task);
+    }
+
+    @Override
+    public void updateTaskPortionsChanged(SummarySheet currentSheet, KitchenTask task) {
+        KitchenTask.changePortions(currentSheet, task);
+    }
+
+    @Override
+    public void updateTaskTimeEstimateChanged(SummarySheet currentSheet, KitchenTask task) {
+        KitchenTask.changeTimeEstimate(currentSheet, task);
+    }
+
+    @Override
+    public void updateTaskCookAssigned(SummarySheet currentSheet, KitchenTask task) {
+        KitchenTask.assignCookToTask(currentSheet, task);
+    }
+
+    @Override
+    public void updateTaskCookRemoved(SummarySheet currentSheet, KitchenTask task) {
+        KitchenTask.removeCookFromTask(currentSheet, task);
+    }
+
 
 }

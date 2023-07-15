@@ -37,6 +37,8 @@ public class Event implements EventItemInfo {
         return organizer;
     }
 
+    public int getId() { return id; }
+
     // STATIC METHODS FOR PERSISTENCE
 
     public static ObservableList<Event> loadAllEventInfo() {
