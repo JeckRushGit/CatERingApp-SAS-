@@ -42,7 +42,7 @@ public class KitchenTaskTest5 {
         try {
             CatERing.getInstance().getKitchenTaskManager().openSummarySheet(ev, serv);
             System.out.println(serv.getSummarySheet().getTasks().get(0));
-            CatERing.getInstance().getKitchenTaskManager().changeCook(serv.getSummarySheet().getTasks().get(0), User.loadUserById(5));
+            CatERing.getInstance().getKitchenTaskManager().changeCook(serv.getSummarySheet().getTasks().get(0), User.loadUserById(4));
         } catch (UseCaseLogicException | TaskException e) {
             throw new RuntimeException(e);
         }
