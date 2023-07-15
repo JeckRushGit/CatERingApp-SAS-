@@ -1,15 +1,15 @@
 package businesslogic.user;
 
+import businesslogic.shift.KitchenShift;
+import businesslogic.shift.Shift;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import persistence.PersistenceManager;
 import persistence.ResultHandler;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class User {
 
@@ -20,6 +20,7 @@ public class User {
     private int id;
     private String username;
     private Set<Role> roles;
+    private List<KitchenShift> kitchenAvailabilities;
 
     public User() {
         id = 0;
@@ -39,6 +40,10 @@ public class User {
         return this.id;
     }
 
+    public Set<Role> getRoles() {
+        return this.roles;
+    }
+
     public String toString() {
         String result = username;
         if (roles.size() > 0) {
@@ -51,6 +56,21 @@ public class User {
         return result;
     }
 
+    public void addKitchenAvailability(KitchenShift shift) {
+        this.kitchenAvailabilities.add(shift);
+    }
+
+    public void removeKitchenAvailability(KitchenShift shift) {
+        this.kitchenAvailabilities.remove(shift);
+    }
+
+    public boolean isKitchenAvailable(KitchenShift shift) {
+        return this.kitchenAvailabilities.contains(shift);
+    }
+
+    public List<KitchenShift> getKitchenAvailabilities() {
+        return kitchenAvailabilities;
+    }
     // STATIC METHODS FOR PERSISTENCE
 
     public static User loadUserById(int uid) {
@@ -75,6 +95,7 @@ public class User {
                     switch (role.charAt(0)) {
                         case 'c':
                             load.roles.add(User.Role.CUOCO);
+                            load.kitchenAvailabilities = User.loadUserKitchenAvailabilityByID(load.id);
                             break;
                         case 'h':
                             load.roles.add(User.Role.CHEF);
@@ -111,6 +132,7 @@ public class User {
                     switch (role.charAt(0)) {
                         case 'c':
                             u.roles.add(User.Role.CUOCO);
+                            u.kitchenAvailabilities = User.loadUserKitchenAvailabilityByID(u.id);
                             break;
                         case 'h':
                             u.roles.add(User.Role.CHEF);
@@ -125,5 +147,21 @@ public class User {
             });
         }
         return u;
+    }
+
+    public static ObservableList<KitchenShift> loadUserKitchenAvailabilityByID(int user_id) {
+        ObservableList<KitchenShift> res = FXCollections.observableArrayList();
+        String query = "SELECT kitchenshifts.start, kitchenshifts.end, kitchenshifts.id " +
+                "FROM (kitchenshifts JOIN kitchenavailabilities ON kitchenshifts.id = kitchenavailabilities.kitchenshift_id) " +
+                "WHERE user_id = " + user_id + ";";
+        PersistenceManager.executeQuery(query, new ResultHandler() {
+            @Override
+            public void handle(ResultSet rs) throws SQLException {
+                KitchenShift sh = new KitchenShift(rs.getString("start"), rs.getString("end"));
+                sh.setId(rs.getInt("id"));
+                res.add(sh);
+            }
+        });
+        return res;
     }
 }

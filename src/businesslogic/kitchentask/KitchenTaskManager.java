@@ -7,6 +7,8 @@ import businesslogic.event.Service;
 import businesslogic.menu.Menu;
 import businesslogic.menu.MenuEventReceiver;
 import businesslogic.recipe.KitchenDuty;
+import businesslogic.shift.KitchenShift;
+import businesslogic.shift.Shift;
 import businesslogic.user.User;
 
 import java.util.ArrayList;
@@ -140,6 +142,233 @@ public class KitchenTaskManager {
 
     }
 
+    public void fillTask(KitchenTask task, KitchenShift shift, Double quantity, Integer portions, String timeEstimate) throws UseCaseLogicException, TaskException {
+        User user = CatERing.getInstance().getUserManager().getCurrentUser();
+        if(!user.isChef()) {
+            throw new UseCaseLogicException();
+        }
+        if(this.currentSheet == null) {
+            throw new UseCaseLogicException();
+        }
+        if(!this.currentSheet.hasTask(task)) {
+            throw new UseCaseLogicException();
+        }
+        if(shift.isFull()) {
+            throw new TaskException();
+        }
+
+        currentSheet.fillTask(task, shift, quantity, portions, timeEstimate);
+        notifyTaskFilled(task);
+    }
+
+    public void moveTask(KitchenTask task, KitchenShift shift) throws UseCaseLogicException, TaskException {
+        User user = CatERing.getInstance().getUserManager().getCurrentUser();
+        if(!user.isChef()) {
+            throw new UseCaseLogicException();
+        }
+        if(this.currentSheet == null) {
+            throw new UseCaseLogicException();
+        }
+        if(!this.currentSheet.hasTask(task)) {
+            throw new UseCaseLogicException();
+        }
+        if(task.getShift() == null) {
+            throw new UseCaseLogicException();
+        }
+        if(shift.isFull()) {
+            throw new TaskException();
+        }
+
+        task.changeShift(shift);
+        notifyTaskMoved(task);
+    }
+
+    public void removeTaskShift(KitchenTask task) throws UseCaseLogicException {
+        User user = CatERing.getInstance().getUserManager().getCurrentUser();
+        if(!user.isChef()) {
+            throw new UseCaseLogicException();
+        }
+        if(this.currentSheet == null) {
+            throw new UseCaseLogicException();
+        }
+        if(!this.currentSheet.hasTask(task)) {
+            throw new UseCaseLogicException();
+        }
+        if(task.getShift() == null) {
+            throw new UseCaseLogicException();
+        }
+
+        currentSheet.removeTaskShift(task);
+        notifyTaskShiftRemoved(task);
+    }
+
+    public void changeQuantity(KitchenTask task, double quantity) throws UseCaseLogicException {
+        User user = CatERing.getInstance().getUserManager().getCurrentUser();
+        if(!user.isChef()) {
+            throw new UseCaseLogicException();
+        }
+        if(this.currentSheet == null) {
+            throw new UseCaseLogicException();
+        }
+        if(!this.currentSheet.hasTask(task)) {
+            throw new UseCaseLogicException();
+        }
+
+        task.setQuantity(quantity);
+        notifyTaskQuantityChanged(task);
+    }
+
+    public void changePortions(KitchenTask task, int portions) throws UseCaseLogicException {
+        User user = CatERing.getInstance().getUserManager().getCurrentUser();
+        if(!user.isChef()) {
+            throw new UseCaseLogicException();
+        }
+        if(this.currentSheet == null) {
+            throw new UseCaseLogicException();
+        }
+        if(!this.currentSheet.hasTask(task)) {
+            throw new UseCaseLogicException();
+        }
+
+        task.setPortions(portions);
+        notifyTaskPortionsChanged(task);
+    }
+
+    public void changeTimeEstimate(KitchenTask task, String timeEstimate) throws UseCaseLogicException {
+        User user = CatERing.getInstance().getUserManager().getCurrentUser();
+        if(!user.isChef()) {
+            throw new UseCaseLogicException();
+        }
+        if(this.currentSheet == null) {
+            throw new UseCaseLogicException();
+        }
+        if(!this.currentSheet.hasTask(task)) {
+            throw new UseCaseLogicException();
+        }
+
+        task.setTimeEstimate(timeEstimate);
+        notifyTaskTimeEstimateChanged(task);
+    }
+
+    public void assignCook(KitchenTask task, User cook) throws UseCaseLogicException, TaskException {
+        User user = CatERing.getInstance().getUserManager().getCurrentUser();
+        if(!user.isChef()) {
+            throw new UseCaseLogicException();
+        }
+        if(this.currentSheet == null) {
+            throw new UseCaseLogicException();
+        }
+        if(!this.currentSheet.hasTask(task)) {
+            throw new UseCaseLogicException();
+        }
+        if(task.getShift() == null) {
+            throw new UseCaseLogicException();
+        }
+        if(!cook.isKitchenAvailable(task.getShift())) {
+            throw new TaskException();
+        }
+        if(task.hasCook()) {
+            throw new TaskException();
+        }
+
+        task.assignCook(cook);
+        notifyTaskCookAssigned(task);
+    }
+
+    public void removeCook(KitchenTask task) throws UseCaseLogicException, TaskException {
+        User user = CatERing.getInstance().getUserManager().getCurrentUser();
+        if(!user.isChef()) {
+            throw new UseCaseLogicException();
+        }
+        if(this.currentSheet == null) {
+            throw new UseCaseLogicException();
+        }
+        if(!this.currentSheet.hasTask(task)) {
+            throw new UseCaseLogicException();
+        }
+        if(task.getShift() == null) {
+            throw new UseCaseLogicException();
+        }
+        if(!(task.hasCook())) {
+            throw new TaskException();
+        }
+
+        notifyTaskCookRemoved(task);
+        task.removeCook();
+    }
+
+    public void changeCook(KitchenTask task, User cook) throws UseCaseLogicException, TaskException {
+        User user = CatERing.getInstance().getUserManager().getCurrentUser();
+        if(!user.isChef()) {
+            throw new UseCaseLogicException();
+        }
+        if(this.currentSheet == null) {
+            throw new UseCaseLogicException();
+        }
+        if(!this.currentSheet.hasTask(task)) {
+            throw new UseCaseLogicException();
+        }
+        if(task.getShift() == null) {
+            throw new UseCaseLogicException();
+        }
+        if(!cook.isKitchenAvailable(task.getShift())) {
+            throw new TaskException();
+        }
+        if(!(task.hasCook())) {
+            throw new TaskException();
+        }
+        removeCook(task);
+        assignCook(task, cook);
+    }
+
+    private void notifyTaskCookRemoved(KitchenTask task) {
+        for(TaskEventReceiver receiver: this.eventReceivers) {
+            receiver.updateTaskCookRemoved(this.currentSheet, task);
+        }
+    }
+
+    private void notifyTaskCookAssigned(KitchenTask task) {
+        for(TaskEventReceiver receiver: this.eventReceivers) {
+            receiver.updateTaskCookAssigned(this.currentSheet, task);
+        }
+    }
+
+    private void notifyTaskTimeEstimateChanged(KitchenTask task) {
+        for(TaskEventReceiver receiver: this.eventReceivers) {
+            receiver.updateTaskTimeEstimateChanged(this.currentSheet, task);
+        }
+    }
+
+    private void notifyTaskPortionsChanged(KitchenTask task) {
+        for(TaskEventReceiver receiver: this.eventReceivers) {
+            receiver.updateTaskPortionsChanged(this.currentSheet, task);
+        }
+    }
+
+    private void notifyTaskQuantityChanged(KitchenTask task) {
+        for(TaskEventReceiver receiver: this.eventReceivers) {
+            receiver.updateTaskQuantityChanged(this.currentSheet, task);
+        }
+    }
+
+    private void notifyTaskShiftRemoved(KitchenTask task) {
+        for(TaskEventReceiver receiver: this.eventReceivers) {
+            receiver.updateTaskShiftRemoved(this.currentSheet, task);
+        }
+    }
+
+    private void notifyTaskMoved(KitchenTask task) {
+        for(TaskEventReceiver receiver : this.eventReceivers) {
+            receiver.updateTaskMoved(this.currentSheet, task);
+        }
+    }
+
+    private void notifyTaskFilled(KitchenTask task) {
+        for(TaskEventReceiver receiver : this.eventReceivers) {
+            receiver.updateTaskFilled(this.currentSheet, task);
+        }
+    }
+
     private void notifyOrderTask(int oldPosition, int newPosition) {
         for(TaskEventReceiver receiver : this.eventReceivers){
             receiver.updateOrderTask(this.currentSheet,oldPosition,newPosition);
@@ -163,6 +392,11 @@ public class KitchenTaskManager {
             er.updateSummarySheetDeleted(summarySheet);
         }
     }
+
+    public void setCurrentSheet(SummarySheet currentSheet) {
+        this.currentSheet = currentSheet;
+    }
+
     private void notifyTaskAdded() {
         for (TaskEventReceiver er : this.eventReceivers) {
             er.updateTaskAdded(this.currentSheet);

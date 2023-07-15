@@ -5,6 +5,7 @@ import businesslogic.event.ServiceMenu;
 import businesslogic.menu.Menu;
 import businesslogic.recipe.KitchenDuty;
 import businesslogic.recipe.SubDuty;
+import businesslogic.shift.KitchenShift;
 import persistence.PersistenceManager;
 import persistence.ResultHandler;
 
@@ -134,6 +135,33 @@ public class SummarySheet {
                 "WHERE summarysheet_id = "+currentSheet.id+"\n" +
                 "AND (position = "+oldPosition+" OR position = "+newPosition+");";
         PersistenceManager.executeUpdate(update);
+    }
+
+    public boolean hasTask(KitchenTask task) {
+        return tasks.contains(task);
+    }
+
+    public void fillTask(KitchenTask task, KitchenShift shift, Double quantity, Integer portions, String timeEstimate) {
+        task.setShift(shift);
+
+        if(quantity != null) {
+            task.setQuantity(quantity);
+        }
+
+        if(portions != null) {
+            task.setPortions(portions);
+        }
+
+        if(timeEstimate != null) {
+            task.setTimeEstimate(timeEstimate);
+        }
+    }
+
+    public void removeTaskShift(KitchenTask task) {
+        if(task.hasCook()) {
+            task.removeCook();
+        }
+        task.removeShift();
     }
 }
 
