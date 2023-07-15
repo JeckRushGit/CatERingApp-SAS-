@@ -142,6 +142,10 @@ public class KitchenTaskManager {
 
     }
 
+    public ArrayList<KitchenShift> getShiftTable(){
+      return CatERing.getInstance().getShiftManager().getShiftTable();
+    }
+
     public void fillTask(KitchenTask task, KitchenShift shift, Double quantity, Integer portions, String timeEstimate) throws UseCaseLogicException, TaskException {
         User user = CatERing.getInstance().getUserManager().getCurrentUser();
         if(!user.isChef()) {

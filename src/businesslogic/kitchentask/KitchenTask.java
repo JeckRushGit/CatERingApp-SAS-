@@ -116,7 +116,7 @@ public class KitchenTask {
     }
 
 
-    public static void deleteKitchenTask(SummarySheet summarySheet,KitchenTask kitchenTask){
+    public static void deleteKitchenTask(KitchenTask kitchenTask){
         String delKitchenTask = "DELETE FROM kitchentasks WHERE id = " + kitchenTask.id;
         PersistenceManager.executeUpdate(delKitchenTask);
     }

@@ -31,7 +31,7 @@ public class KitchenTaskPersistence implements TaskEventReceiver {
 
     @Override
     public void updateTaskDeleted(SummarySheet summarySheet,KitchenTask kitchenTask) {
-        KitchenTask.deleteKitchenTask(summarySheet,kitchenTask);
+        KitchenTask.deleteKitchenTask(kitchenTask);
         SummarySheet.shiftPositions(summarySheet,kitchenTask.getPosition());
     }
 

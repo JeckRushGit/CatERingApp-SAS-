@@ -20,6 +20,23 @@ public class KitchenShift extends Shift{
         this.full = false;
     }
 
+    public static ArrayList<KitchenShift> loadAllKitchenShifts() {
+        String query = "SELECT * FROM kitchenshifts";
+        ArrayList<KitchenShift> shifts = new ArrayList<>();
+        PersistenceManager.executeQuery(query, new ResultHandler() {
+            @Override
+            public void handle(ResultSet rs) throws SQLException {
+                String start = rs.getString("start");
+                String end = rs.getString("end");
+                KitchenShift kitchenShift = new KitchenShift(start,end);
+                kitchenShift.id = rs.getInt("id");
+                kitchenShift.full = rs.getBoolean("full");
+                shifts.add(kitchenShift);
+            }
+        });
+
+        return shifts;
+    }
 
 
     public boolean isFull() {

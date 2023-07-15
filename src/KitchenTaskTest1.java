@@ -45,17 +45,10 @@ public class KitchenTaskTest1 {
                 }
             }
 
-//            CatERing.getInstance().getKitchenTaskManager().addTask(recipe);
-
-            KitchenTask task = CatERing.getInstance().getKitchenTaskManager().getCurrentSheet().getTasks().get(2);
-            System.out.println(task.getPosition());
-            CatERing.getInstance().getKitchenTaskManager().orderTask(task,0);
-//            CatERing.getInstance().getKitchenTaskManager().deleteTask(task);
+            System.out.println(CatERing.getInstance().getKitchenTaskManager().getShiftTable());
 
         } catch (UseCaseLogicException ex) {
             ex.printStackTrace();
-        } catch (SummarySheetException ex) {
-            throw new RuntimeException(ex);
         }
 
     }

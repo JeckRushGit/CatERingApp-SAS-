@@ -117,7 +117,7 @@ public class SummarySheet {
 
     public static void deleteSummarySheet(SummarySheet summarySheet) {
         for(KitchenTask kitchenTask : summarySheet.tasks){
-            KitchenTask.deleteKitchenTask(summarySheet,kitchenTask);
+            KitchenTask.deleteKitchenTask(kitchenTask);
         }
         String delSummarySheet = "DELETE FROM summarysheets WHERE id = " + summarySheet.id;
         PersistenceManager.executeUpdate(delSummarySheet);
