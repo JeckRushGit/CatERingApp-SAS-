@@ -79,7 +79,9 @@ public class SummarySheet {
             }
         });
 
-
+        if(summarySheet.id == 0){
+            return null;
+        }
         return summarySheet;
     }
 
@@ -93,6 +95,9 @@ public class SummarySheet {
 
 
     public void removeTask(KitchenTask kitchenTask) {
+        if(kitchenTask.hasCook()){
+            kitchenTask.removeCook();
+        }
         this.tasks.remove(kitchenTask);
     }
 
@@ -162,6 +167,15 @@ public class SummarySheet {
             task.removeCook();
         }
         task.removeShift();
+    }
+
+    public void deleteTasks() {
+        for(int i = 0 ; i < tasks.size() ; i++){
+            this.removeTask(tasks.get(i));
+        }
+//        for(KitchenTask task: this.tasks){
+//            this.removeTask(task);
+//        }
     }
 }
 

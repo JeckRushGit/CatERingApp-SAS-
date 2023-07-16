@@ -45,8 +45,7 @@ public class KitchenTaskTest1 {
                 }
             }
 
-            System.out.println(CatERing.getInstance().getKitchenTaskManager().getShiftTable());
-
+            CatERing.getInstance().getKitchenTaskManager().deleteSummarySheet(targetEvent,s);
         } catch (UseCaseLogicException ex) {
             ex.printStackTrace();
         }

@@ -117,6 +117,9 @@ public class KitchenTask {
 
 
     public static void deleteKitchenTask(KitchenTask kitchenTask){
+        if(kitchenTask.hasCook()){
+            KitchenShift.addKitchenAvailability(kitchenTask.getShift().getId(),kitchenTask.cook.getId());
+        }
         String delKitchenTask = "DELETE FROM kitchentasks WHERE id = " + kitchenTask.id;
         PersistenceManager.executeUpdate(delKitchenTask);
     }

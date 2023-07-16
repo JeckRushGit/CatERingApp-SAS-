@@ -98,6 +98,7 @@ public class Service implements EventItemInfo {
 
 
     public void removeSummarySheet() {
+        this.summarySheet.deleteTasks();
         this.summarySheet = null;
     }
 
