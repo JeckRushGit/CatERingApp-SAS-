@@ -186,8 +186,8 @@ public class KitchenTaskManager {
             throw new TaskException();
         }
 
+        notifyTaskMoved(task, shift);
         task.changeShift(shift);
-        notifyTaskMoved(task);
     }
 
     public void removeTaskShift(KitchenTask task) throws UseCaseLogicException {
@@ -364,9 +364,9 @@ public class KitchenTaskManager {
         }
     }
 
-    private void notifyTaskMoved(KitchenTask task) {
+    private void notifyTaskMoved(KitchenTask task, KitchenShift shift) {
         for(TaskEventReceiver receiver : this.eventReceivers) {
-            receiver.updateTaskMoved(this.currentSheet, task);
+            receiver.updateTaskMoved(this.currentSheet, task, shift);
         }
     }
 

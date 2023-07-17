@@ -1,7 +1,7 @@
 package businesslogic.kitchentask;
 
-import businesslogic.event.Event;
 import businesslogic.event.Service;
+import businesslogic.shift.KitchenShift;
 
 public interface TaskEventReceiver {
     void updateSummarySheetCreated(Service service,SummarySheet currentSheet);
@@ -16,7 +16,7 @@ public interface TaskEventReceiver {
 
     void updateTaskFilled(SummarySheet currentSheet, KitchenTask task);
 
-    void updateTaskMoved(SummarySheet currentSheet, KitchenTask task);
+    void updateTaskMoved(SummarySheet currentSheet, KitchenTask task, KitchenShift shift);
 
     void updateTaskShiftRemoved(SummarySheet currentSheet, KitchenTask task);
 

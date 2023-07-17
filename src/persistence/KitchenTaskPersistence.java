@@ -5,6 +5,7 @@ import businesslogic.event.Service;
 import businesslogic.kitchentask.KitchenTask;
 import businesslogic.kitchentask.SummarySheet;
 import businesslogic.kitchentask.TaskEventReceiver;
+import businesslogic.shift.KitchenShift;
 
 import java.util.ArrayList;
 
@@ -46,8 +47,8 @@ public class KitchenTaskPersistence implements TaskEventReceiver {
     }
 
     @Override
-    public void updateTaskMoved(SummarySheet currentSheet, KitchenTask task) {
-        KitchenTask.moveKitchenTask(currentSheet, task);
+    public void updateTaskMoved(SummarySheet currentSheet, KitchenTask task, KitchenShift shift) {
+        KitchenTask.moveKitchenTask(currentSheet, task, shift);
     }
 
     @Override
