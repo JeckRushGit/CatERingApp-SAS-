@@ -17,6 +17,7 @@ public class KitchenShift extends Shift{
 
     public KitchenShift(String start, String end) {
         super(start, end);
+        this.id = 0;
         this.full = false;
     }
 

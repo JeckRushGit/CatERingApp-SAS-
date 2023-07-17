@@ -408,6 +408,7 @@ public class Menu {
             @Override
             public void handle(ResultSet rs) throws SQLException {
                 int id = rs.getInt("id");
+
                 if (loadedMenus.containsKey(id)) {
                     Menu m = loadedMenus.get(id);
                     m.title = rs.getString("title");
@@ -469,6 +470,8 @@ public class Menu {
                 }
             });
 
+
+
             // load sections
             m.updateSections(Section.loadSectionsFor(m.id));
 
@@ -526,7 +529,9 @@ public class Menu {
 
     public ArrayList<Recipe> getNeededRecipes(){
         ArrayList<Recipe> recipes = new ArrayList<>();
+
         for(Section section : sections){
+
             for(MenuItem menuItem : section.getItems()){
                 recipes.add(menuItem.getItemRecipe());
             }

@@ -101,6 +101,8 @@ public class MenuItem {
     }
 
     public static ObservableList<MenuItem> loadItemsFor(int menu_id, int sec_id) {
+
+
         ObservableList<MenuItem> result = FXCollections.observableArrayList();
         ArrayList<Integer> recids = new ArrayList<>();
         String query = "SELECT * FROM MenuItems WHERE menu_id = " + menu_id +
@@ -112,6 +114,7 @@ public class MenuItem {
             public void handle(ResultSet rs) throws SQLException {
                 MenuItem mi = new MenuItem();
                 mi.description = rs.getString("description");
+                mi.id = rs.getInt("id");
                 result.add(mi);
                 recids.add(rs.getInt("recipe_id"));
             }
@@ -121,6 +124,8 @@ public class MenuItem {
         for (int i = 0; i < result.size(); i++) {
             result.get(i).itemRecipe = Recipe.loadRecipeById(recids.get(i));
         }
+
+
 
         return result;
     }

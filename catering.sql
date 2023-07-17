@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:8889
--- Creato il: Lug 15, 2023 alle 15:05
--- Versione del server: 5.7.34
--- Versione PHP: 7.4.21
+-- Host: 127.0.0.1
+-- Creato il: Lug 17, 2023 alle 12:50
+-- Versione del server: 10.4.27-MariaDB
+-- Versione PHP: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -34,7 +34,7 @@ CREATE TABLE `events` (
   `date_end` date DEFAULT NULL,
   `expected_participants` int(11) DEFAULT NULL,
   `organizer_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dump dei dati per la tabella `events`
@@ -54,7 +54,7 @@ INSERT INTO `events` (`id`, `name`, `date_start`, `date_end`, `expected_particip
 CREATE TABLE `kitchenavailabilities` (
   `user_id` int(11) NOT NULL,
   `kitchenshift_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dump dei dati per la tabella `kitchenavailabilities`
@@ -76,8 +76,8 @@ CREATE TABLE `kitchenshifts` (
   `id` int(11) NOT NULL,
   `start` varchar(100) NOT NULL,
   `end` varchar(100) NOT NULL,
-  `full` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `full` tinyint(1) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dump dei dati per la tabella `kitchenshifts`
@@ -96,52 +96,15 @@ INSERT INTO `kitchenshifts` (`id`, `start`, `end`, `full`) VALUES
 
 CREATE TABLE `kitchentasks` (
   `id` int(11) NOT NULL,
-  `summarysheet_id` int(11) NOT NULL DEFAULT '0',
-  `subduty_id` int(11) NOT NULL DEFAULT '0',
+  `summarysheet_id` int(11) NOT NULL DEFAULT 0,
+  `subduty_id` int(11) NOT NULL DEFAULT 0,
   `position` int(11) NOT NULL,
-  `quantity` double NOT NULL DEFAULT '0',
-  `portions` int(11) NOT NULL DEFAULT '0',
+  `quantity` double NOT NULL DEFAULT 0,
+  `portions` int(11) NOT NULL DEFAULT 0,
   `timeEstimate` varchar(100) NOT NULL DEFAULT '',
-  `kitchenshift_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dump dei dati per la tabella `kitchentasks`
---
-
-INSERT INTO `kitchentasks` (`id`, `summarysheet_id`, `subduty_id`, `position`, `quantity`, `portions`, `timeEstimate`, `kitchenshift_id`, `user_id`) VALUES
-(282, 9, 54, 0, 69, 9, '10 minuta', 1, 5),
-(283, 9, 55, 1, 0, 0, '', 0, 0),
-(284, 9, 56, 2, 0, 0, '', 0, 0),
-(285, 9, 1, 3, 0, 0, '', 0, 0),
-(286, 9, 2, 4, 0, 0, '', 0, 0),
-(287, 9, 3, 5, 0, 0, '', 0, 0),
-(288, 9, 4, 6, 0, 0, '', 0, 0),
-(289, 9, 5, 7, 0, 0, '', 0, 0),
-(290, 9, 1, 8, 0, 0, '', 0, 0),
-(291, 9, 2, 9, 0, 0, '', 0, 0),
-(292, 9, 3, 10, 0, 0, '', 0, 0),
-(293, 9, 4, 11, 0, 0, '', 0, 0),
-(294, 9, 5, 12, 0, 0, '', 0, 0),
-(295, 9, 1, 13, 0, 0, '', 0, 0),
-(296, 9, 2, 14, 0, 0, '', 0, 0),
-(297, 9, 3, 15, 0, 0, '', 0, 0),
-(298, 9, 4, 16, 0, 0, '', 0, 0),
-(299, 9, 5, 17, 0, 0, '', 0, 0),
-(300, 9, 39, 18, 0, 0, '', 0, 0),
-(301, 9, 40, 19, 0, 0, '', 0, 0),
-(302, 9, 41, 20, 0, 0, '', 0, 0),
-(303, 9, 42, 21, 0, 0, '', 0, 0),
-(304, 9, 39, 22, 0, 0, '', 0, 0),
-(305, 9, 40, 23, 0, 0, '', 0, 0),
-(306, 9, 41, 24, 0, 0, '', 0, 0),
-(307, 9, 42, 25, 0, 0, '', 0, 0),
-(308, 9, 16, 26, 0, 0, '', 0, 0),
-(309, 9, 17, 27, 0, 0, '', 0, 0),
-(310, 9, 18, 28, 0, 0, '', 0, 0),
-(311, 9, 19, 29, 0, 0, '', 0, 0),
-(312, 9, 20, 30, 0, 0, '', 0, 0);
+  `kitchenshift_id` int(11) NOT NULL DEFAULT 0,
+  `user_id` int(11) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -152,8 +115,8 @@ INSERT INTO `kitchentasks` (`id`, `summarysheet_id`, `subduty_id`, `position`, `
 CREATE TABLE `menufeatures` (
   `menu_id` int(11) NOT NULL,
   `name` varchar(128) NOT NULL DEFAULT '',
-  `value` tinyint(1) DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `value` tinyint(1) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dump dei dati per la tabella `menufeatures`
@@ -186,10 +149,10 @@ CREATE TABLE `menuitems` (
   `id` int(11) NOT NULL,
   `menu_id` int(11) NOT NULL,
   `section_id` int(11) DEFAULT NULL,
-  `description` tinytext,
+  `description` tinytext DEFAULT NULL,
   `recipe_id` int(11) NOT NULL,
   `position` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dump dei dati per la tabella `menuitems`
@@ -215,10 +178,10 @@ INSERT INTO `menuitems` (`id`, `menu_id`, `section_id`, `description`, `recipe_i
 
 CREATE TABLE `menus` (
   `id` int(11) NOT NULL,
-  `title` tinytext,
+  `title` tinytext DEFAULT NULL,
   `owner_id` int(11) DEFAULT NULL,
-  `published` tinyint(1) DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `published` tinyint(1) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dump dei dati per la tabella `menus`
@@ -238,9 +201,9 @@ INSERT INTO `menus` (`id`, `title`, `owner_id`, `published`) VALUES
 CREATE TABLE `menusections` (
   `id` int(11) NOT NULL,
   `menu_id` int(11) NOT NULL,
-  `name` tinytext,
+  `name` tinytext DEFAULT NULL,
   `position` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dump dei dati per la tabella `menusections`
@@ -261,8 +224,8 @@ INSERT INTO `menusections` (`id`, `menu_id`, `name`, `position`) VALUES
 
 CREATE TABLE `recipes` (
   `ID` int(11) NOT NULL,
-  `name` tinytext
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `name` tinytext DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dump dei dati per la tabella `recipes`
@@ -292,7 +255,7 @@ INSERT INTO `recipes` (`ID`, `name`) VALUES
 CREATE TABLE `roles` (
   `id` char(1) NOT NULL,
   `role` varchar(128) NOT NULL DEFAULT 'servizio'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dump dei dati per la tabella `roles`
@@ -314,9 +277,9 @@ CREATE TABLE `servicemenu` (
   `id` int(11) NOT NULL,
   `menu_id` int(11) NOT NULL,
   `service_id` int(11) NOT NULL,
-  `approved` tinyint(1) DEFAULT '0',
+  `approved` tinyint(1) DEFAULT 0,
   `proposals` varchar(128) NOT NULL DEFAULT ''
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dump dei dati per la tabella `servicemenu`
@@ -340,7 +303,7 @@ CREATE TABLE `services` (
   `time_start` time DEFAULT NULL,
   `time_end` time DEFAULT NULL,
   `expected_participants` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dump dei dati per la tabella `services`
@@ -365,8 +328,8 @@ INSERT INTO `services` (`id`, `event_id`, `name`, `service_date`, `time_start`, 
 CREATE TABLE `subduties` (
   `ID` int(11) NOT NULL,
   `recipe_id` int(11) DEFAULT NULL,
-  `name` tinytext
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `name` tinytext DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dump dei dati per la tabella `subduties`
@@ -439,14 +402,7 @@ INSERT INTO `subduties` (`ID`, `recipe_id`, `name`) VALUES
 CREATE TABLE `summarysheets` (
   `id` int(11) NOT NULL,
   `service_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dump dei dati per la tabella `summarysheets`
---
-
-INSERT INTO `summarysheets` (`id`, `service_id`) VALUES
-(9, 1);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -457,7 +413,7 @@ INSERT INTO `summarysheets` (`id`, `service_id`) VALUES
 CREATE TABLE `userroles` (
   `user_id` int(11) NOT NULL,
   `role_id` char(1) NOT NULL DEFAULT 's'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dump dei dati per la tabella `userroles`
@@ -487,7 +443,7 @@ INSERT INTO `userroles` (`user_id`, `role_id`) VALUES
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `username` varchar(128) NOT NULL DEFAULT ''
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dump dei dati per la tabella `users`

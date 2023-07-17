@@ -48,6 +48,9 @@ public class KitchenTaskManager {
         if(service.getServiceMenu().getMenu() == null){
             throw new UseCaseLogicException();
         }
+        if(service.getSummarySheet() != null){
+            throw new UseCaseLogicException();
+        }
 
         SummarySheet newSumSheet = service.createSummarySheet();
         this.currentSheet = newSumSheet;
