@@ -73,14 +73,17 @@ public class SummarySheet {
             @Override
             public void handle(ResultSet rs) throws SQLException {
                 int summarySheetId = rs.getInt("id");
-                ArrayList<KitchenTask> tasks = KitchenTask.getTasksForSummarySheet(summarySheetId);
                 summarySheet.id = summarySheetId;
-                summarySheet.tasks = tasks;
+
             }
         });
 
+
         if(summarySheet.id == 0){
             return null;
+        }else{
+            ArrayList<KitchenTask> tasks = KitchenTask.getTasksForSummarySheet(summarySheet.id);
+            summarySheet.tasks = tasks;
         }
         return summarySheet;
     }

@@ -65,7 +65,7 @@ public class KitchenTaskTest {
             User user = User.loadUser("Marinella");
             CatERing.getInstance().getKitchenTaskManager().assignCook(taskToAssignCook,user);
 
-        } catch (UseCaseLogicException | SummarySheetException | TaskException e) {
+        } catch (UseCaseLogicException | TaskException | SummarySheetException e) {
             System.out.println("Errore di logica nello use case");
         }
 

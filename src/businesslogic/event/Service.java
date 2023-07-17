@@ -87,11 +87,14 @@ public class Service implements EventItemInfo {
                 serv.timeStart = rs.getTime("time_start");
                 serv.timeEnd = rs.getTime("time_end");
                 serv.participants = rs.getInt("expected_participants");
-                serv.serviceMenu = ServiceMenu.loadServiceMenuInfoForService(serv.id);
-                serv.summarySheet = SummarySheet.loadSummarySheetInfoForService(serv.id);
                 result.add(serv);
             }
         });
+
+        for(Service service: result){
+            service.serviceMenu = ServiceMenu.loadServiceMenuInfoForService(service.id);
+            service.summarySheet = SummarySheet.loadSummarySheetInfoForService(service.id);
+        }
 
         return result;
     }

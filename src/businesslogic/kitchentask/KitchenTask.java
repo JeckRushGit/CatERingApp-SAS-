@@ -24,6 +24,10 @@ public class KitchenTask {
     private KitchenShift shift;
     private double quantity;
     private int portions;
+
+    private int subDutyId;
+    private int kitchenShiftId;
+    private int userId;
     private String timeEstimate;
 
     private User cook;
@@ -44,6 +48,10 @@ public class KitchenTask {
         this.kitchenDuty = kitchenDuty;
         this.position = position;
         this.id = 0;
+    }
+
+    private KitchenTask(){
+
     }
 
     @Override
@@ -89,21 +97,29 @@ public class KitchenTask {
         PersistenceManager.executeQuery(query, new ResultHandler() {
             @Override
             public void handle(ResultSet rs) throws SQLException {
-                SubDuty subDuty = SubDuty.loadSubDutyById(rs.getInt("subduty_id"));
-                KitchenTask kitchenTask = new KitchenTask(subDuty,rs.getInt("position"));
+
+                KitchenTask kitchenTask = new KitchenTask();
                 kitchenTask.id = rs.getInt("id");
-                if(rs.getInt("kitchenshift_id") > 0) {
-                    kitchenTask.shift = KitchenShift.loadKitchenShiftByID(rs.getInt("kitchenshift_id"));
-                }
                 kitchenTask.quantity = rs.getDouble("quantity");
+                kitchenTask.position = rs.getInt("position");
                 kitchenTask.portions = rs.getInt("portions");
+                kitchenTask.subDutyId = rs.getInt("subduty_id");
+                kitchenTask.kitchenShiftId = rs.getInt("kitchenshift_id");
+                kitchenTask.userId = rs.getInt("user_id");
                 kitchenTask.timeEstimate = rs.getString("timeEstimate");
-                if(rs.getInt("user_id") > 0) {
-                    kitchenTask.cook = User.loadUserById(rs.getInt("user_id"));
-                }
                 kitchenTasks.add(kitchenTask);
             }
         });
+
+        for(KitchenTask kitchenTask : kitchenTasks){
+            kitchenTask.kitchenDuty = SubDuty.loadSubDutyById(kitchenTask.subDutyId);
+            if(kitchenTask.kitchenShiftId > 0){
+                kitchenTask.shift = KitchenShift.loadKitchenShiftByID(kitchenTask.kitchenShiftId);
+            }
+            if(kitchenTask.userId > 0)
+                kitchenTask.cook = User.loadUserById(kitchenTask.userId);
+        }
+
         return kitchenTasks;
     }
 
