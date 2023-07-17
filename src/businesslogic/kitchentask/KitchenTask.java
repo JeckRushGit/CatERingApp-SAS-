@@ -153,7 +153,7 @@ public class KitchenTask {
         String moveKitchenTask = "UPDATE kitchentasks " +
                 "SET kitchenshift_id = " + shift.getId() + " WHERE id = " + kitchenTask.id;;
         if(kitchenTask.hasCook()) {
-            KitchenShift.addKitchenAvailability(kitchenTask.getShift().getId(), kitchenTask.getCook().getId());
+            KitchenShift.addKitchenAvailability(kitchenTask.shift.getId(), kitchenTask.cook.getId());
             if(kitchenTask.getCook().isKitchenAvailable(shift)) {
                 KitchenShift.removeKitchenAvailability(shift.getId(), kitchenTask.getCook().getId());
             } else {
@@ -166,7 +166,10 @@ public class KitchenTask {
 
     public static void removeKitchenTaskShift(SummarySheet currentSheet, KitchenTask kitchenTask) {
         String removeKitchenTaskShift = "UPDATE kitchentasks " +
-                "SET kitchenshift_id = 0 WHERE id = " + kitchenTask.id;
+                "SET kitchenshift_id = 0, user_id = 0 WHERE id = " + kitchenTask.id;
+        if(kitchenTask.hasCook()) {
+            KitchenShift.addKitchenAvailability(kitchenTask.shift.getId(), kitchenTask.cook.getId());
+        }
         PersistenceManager.executeUpdate(removeKitchenTaskShift);
     }
 

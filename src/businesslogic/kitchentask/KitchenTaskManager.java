@@ -186,8 +186,11 @@ public class KitchenTaskManager {
             throw new TaskException();
         }
 
-        notifyTaskMoved(task, shift);
-        task.changeShift(shift);
+        if(task.getShift() == shift) {
+            notifyTaskMoved(task, shift);
+            task.changeShift(shift);
+        }
+
     }
 
     public void removeTaskShift(KitchenTask task) throws UseCaseLogicException {
@@ -205,8 +208,8 @@ public class KitchenTaskManager {
             throw new UseCaseLogicException();
         }
 
-        currentSheet.removeTaskShift(task);
         notifyTaskShiftRemoved(task);
+        currentSheet.removeTaskShift(task);
     }
 
     public void changeQuantity(KitchenTask task, double quantity) throws UseCaseLogicException {
